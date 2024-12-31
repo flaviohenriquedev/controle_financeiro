@@ -1,0 +1,22 @@
+{
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "css.lint.unknownAtRules": "ignore",
+    "workbench.editor.openSideBySideDirection": "right",
+    "workbench.tree.indent": 16,
+    "explorer.autoReveal": true,
+    "explorer.openEditors.visible": 9,
+    "explorer.decorations.badges": false,
+    "explorer.compactFolders": false,
+    "explorer.decorations.colors": true,
+    "editor.fontSize": 13,
+    "editor.fontVariations": false,
+    "editor.fontWeight": 100,
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active",
+}
