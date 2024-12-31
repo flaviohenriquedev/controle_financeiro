@@ -3,24 +3,30 @@ import {Despesa} from "@/class/Despesa";
 import {useContext} from "react";
 import {icones} from "@/components/layout/icones";
 import {DespesasContext} from "@/context/DespesasContext";
+import {FieldTabela} from "@/types";
+import {TipoDados} from "@/enums";
+import {Table} from "@/components/layout/data-display/table/table";
 
 type Props = {
     despesas: Despesa[];
     handleOpenModal: () => void;
 }
 
+const fieldsDespesas: FieldTabela[] = [
+    {
+        titulo: 'Descrição',
+        field: 'descricao',
+    },
+    {
+        titulo: 'Valor',
+        field: 'valor',
+        tipoDados: TipoDados.MOEDA,
+    }
+]
+
 export function Despesas({despesas, handleOpenModal}: Props) {
 
-    const {valorTotal} = useContext(DespesasContext);
-
-    const renderDespesas = () => {
-        return despesas.map((despesa) => (
-            <tr key={(despesa.id)}>
-                <td>{despesa.descricao}</td>
-                <td>{mascaraMoeda(despesa.valor.toString())}</td>
-            </tr>
-        ));
-    };
+    const {valorTotal, excluirDespesa} = useContext(DespesasContext);
 
     return (
         <div className={`flex flex-col w-full`}>
@@ -39,21 +45,9 @@ export function Despesas({despesas, handleOpenModal}: Props) {
                 </div>
             </div>
 
-            <div className="overflow-x-auto">
-                <table className="table">
-                    {/* head */}
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Descrição</th>
-                        <th>Valor</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {renderDespesas()}
-                    </tbody>
-                </table>
-            </div>
+            <Table lista={despesas}
+                   fields={fieldsDespesas}
+                   funcaoExcluir={excluirDespesa}/>
         </div>
     )
 }

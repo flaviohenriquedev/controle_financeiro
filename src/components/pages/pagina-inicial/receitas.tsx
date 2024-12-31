@@ -1,26 +1,32 @@
 import {mascaraMoeda} from "@/functions/utils";
 import {Receita} from "@/class/Receita";
-import {useContext, useEffect, useState} from "react";
+import {useContext} from "react";
 import {icones} from "@/components/layout/icones";
 import {ReceitasContext} from "@/context/ReceitasContext";
+import {FieldTabela} from "@/types";
+import {Table} from "@/components/layout/data-display/table/table";
+import {TipoDados} from "@/enums";
 
 type Props = {
     receitas: Receita[];
     handleOpenModal: () => void;
 }
 
+const fieldsReceitas: FieldTabela[] = [
+    {
+        titulo: 'Descrição',
+        field: 'descricao',
+    },
+    {
+        titulo: 'Valor',
+        field: 'valor',
+        tipoDados: TipoDados.MOEDA,
+    }
+]
+
 export function Receitas({receitas, handleOpenModal}: Props) {
 
-    const {valorTotal} = useContext(ReceitasContext)
-
-    const renderReceitas = () => {
-        return receitas.map((receita) => (
-            <tr key={(receita.id)}>
-                <td>{receita.descricao}</td>
-                <td>{mascaraMoeda(receita.valor.toString())}</td>
-            </tr>
-        ));
-    };
+    const {valorTotal, excluirReceita} = useContext(ReceitasContext)
 
     return (
         <div className={`flex flex-col w-full`}>
@@ -38,20 +44,10 @@ export function Receitas({receitas, handleOpenModal}: Props) {
                     <h2 className={`text-[14pt]`}>{mascaraMoeda(valorTotal.toString())}</h2>
                 </div>
             </div>
-
-            <div className="overflow-x-auto">
-                <table className="table">
-                    <thead>
-                    <tr>
-                        <th>Descrição</th>
-                        <th>Valor</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {renderReceitas()}
-                    </tbody>
-                </table>
-            </div>
+            <Table lista={receitas}
+                   fields={fieldsReceitas}
+                   funcaoExcluir={excluirReceita}
+            />
         </div>
     );
 }

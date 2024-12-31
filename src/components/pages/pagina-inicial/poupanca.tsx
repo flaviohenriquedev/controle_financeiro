@@ -9,7 +9,8 @@ export function Poupanca() {
     const {valorPoupanca, setValorPoupanca} = useContext(ValoresContext);
 
     function handleChangeValue(e: string) {
-        setValorPoupanca(parseFloat(extrairNumeros(e)))
+        const valorFormatado = e && e.length > 0 ? extrairNumeros(e) : '0'
+        setValorPoupanca(parseFloat(valorFormatado))
     }
 
     return (

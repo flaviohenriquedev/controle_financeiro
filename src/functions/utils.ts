@@ -35,16 +35,21 @@ export function mascaraCNPJ(valor?: string): string {
 
 export function mascaraMoeda(valor?: string): string {
     if (valor) {
+        const isNegative = valor.startsWith('-');
         valor = valor.replace(/\D/g, '');
-        valor = (parseInt(valor) / 100).toFixed(2) + '';
+        if (isNegative) {
+            valor = '-' + valor;
+        }
+        valor = (parseInt(valor) / 100).toFixed(2);
         valor = valor.replace('.', ',');
         valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-        return 'R$ ' + valor;
+        return `R$ ${valor}`;
     }
 
-    return ''
+    return '';
 }
+
 
 export function extrairNumeros(str: string): string {
     if (str) {
@@ -56,4 +61,8 @@ export function extrairNumeros(str: string): string {
 
 export function generateRandomId(min: number = 1, max: number = 100000): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function getValorEmString(valor: any): string {
+    return valor.toString()
 }

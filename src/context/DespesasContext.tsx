@@ -3,32 +3,9 @@
 import {createContext, ReactNode, useEffect, useState} from "react";
 import {generateRandomId} from "@/functions/utils";
 import {Despesa} from "@/class/Despesa";
+import {Receita} from "@/class/Receita";
 
-const apiDespesas: Despesa[] = [
-    {
-        id: 1,
-        descricao: 'Aluguel',
-        valor: 760
-    },
-    {
-        id: 2,
-        descricao: 'Caixa',
-        valor: 1000
-    },
-    {
-        id: 3,
-        descricao: 'NU PF',
-        valor: 2000
-    }, {
-        id: 4,
-        descricao: 'NU PJ',
-        valor: 3399
-    }, {
-        id: 5,
-        descricao: 'Neon',
-        valor: 4400
-    },
-]
+const apiDespesas: Despesa[] = []
 
 type Props = {
     listaDespesas: Despesa[]
@@ -36,6 +13,7 @@ type Props = {
     despesa: Despesa
     setDespesa: (Despesa: Despesa) => void
     adicionarDespesa: () => void
+    excluirDespesa: (receita: Receita) => void
     valorTotal: number
 }
 
@@ -47,6 +25,8 @@ export const DespesasContext = createContext<Props>({
     setDespesa: () => {
     },
     adicionarDespesa: () => {
+    },
+    excluirDespesa: () => {
     },
     valorTotal: 0,
 })
@@ -77,9 +57,13 @@ export function DespesasContextProvider({children}: { children: ReactNode }) {
         setListaDespesas([...listaDespesas, novaDespesa]);
     }
 
+    function excluirDespesa(despesa: Despesa) {
+        setListaDespesas(prevState => prevState.filter(r => r.id !== despesa.id));
+    }
+
     return (
         <DespesasContext.Provider value={{
-            listaDespesas, setListaDespesas, despesa, setDespesa, adicionarDespesa, valorTotal
+            listaDespesas, setListaDespesas, despesa, setDespesa, adicionarDespesa, excluirDespesa, valorTotal
         }}>
             {children}
         </DespesasContext.Provider>

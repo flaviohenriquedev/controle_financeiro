@@ -2,15 +2,9 @@
 
 import {createContext, ReactNode, useEffect, useState} from "react";
 import {Receita} from "@/class/Receita";
-import {closeModal, generateRandomId} from "@/functions/utils";
+import {generateRandomId} from "@/functions/utils";
 
-const apiReceitas: Receita[] = [
-    {
-        id: 1,
-        descricao: 'Salário',
-        valor: 890000
-    }
-]
+const apiReceitas: Receita[] = []
 
 type Props = {
     listaReceitas: Receita[]
@@ -18,6 +12,7 @@ type Props = {
     receita: Receita;
     setReceita: (receita: Receita) => void;
     adicionarReceita: () => void;
+    excluirReceita: (receita: Receita) => void;
     valorTotal: number
 }
 
@@ -28,7 +23,10 @@ export const ReceitasContext = createContext<Props>({
     receita: new Receita(),
     setReceita: () => {
     },
-    adicionarReceita: () => {},
+    adicionarReceita: () => {
+    },
+    excluirReceita: () => {
+    },
     valorTotal: 0,
 })
 
@@ -58,9 +56,13 @@ export function ReceitasContextProvider({children}: { children: ReactNode }) {
         setListaReceitas([...listaReceitas, novaReceita]);
     }
 
+    function excluirReceita(receita: Receita) {
+        setListaReceitas(prevState => prevState.filter(r => r.id !== receita.id));
+    }
+
     return (
         <ReceitasContext.Provider value={{
-            listaReceitas, setListaReceitas, receita, setReceita, adicionarReceita, valorTotal
+            listaReceitas, setListaReceitas, receita, setReceita, adicionarReceita, excluirReceita, valorTotal
         }}>
             {children}
         </ReceitasContext.Provider>

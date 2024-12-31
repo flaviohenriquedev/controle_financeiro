@@ -10,7 +10,7 @@ export function Resultados() {
     return (
         <div className={`flex flex-col w-full gap-4`}>
             <Poupanca />
-            <div className={`flex items-center justify-between bg-accent text-accent-content py-2 px-4`}>
+            <div className={`flex items-center justify-between ${valorSaldo < 0 ? 'bg-error text-error-content' : 'bg-accent text-accent-content'}  py-2 px-4`}>
                 <div className={`flex p-1`}>
                     <h1 className={`text-[20pt]`}>Saldo</h1>
                 </div>
@@ -19,12 +19,12 @@ export function Resultados() {
                 </div>
             </div>
 
-            <div className={`flex items-center justify-between bg-info text-info-content py-2 px-4`}>
+            <div className={`flex items-center justify-between ${valorSaldo < 0 ? 'bg-error/60 text-error-content' : 'bg-info text-info-content'} py-2 px-4`}>
                 <div className={`flex justify-center p-1`}>
-                    <h1 className={`text-[20pt]`}>Saldo + Poupança</h1>
+                    <h1 className={`text-[18pt]`}>Saldo + Poupança</h1>
                 </div>
                 <div className={`flex justify-center p-1`}>
-                    <h2 className={`text-[20pt]`}>{mascaraMoeda(valorSaldoPoupanca.toString())}</h2>
+                    <h2 className={`text-[18pt]`}>{mascaraMoeda(valorSaldoPoupanca.toString())}</h2>
                 </div>
             </div>
         </div>
