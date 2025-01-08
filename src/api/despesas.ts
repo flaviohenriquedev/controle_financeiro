@@ -18,6 +18,14 @@ export const insertDespesa = async (despesa: Despesa): Promise<Despesa> => {
         .catch(error => console.log(error));
 }
 
+export const deleteDespesa = async (id: number): Promise<void> => {
+    await fetch(`http://localhost:3333/despesas/${id}`, {
+        method: "DELETE",
+    }).then(_ => {})
+}
+
+//-------------------
+
 export const fetchReceitas = async (): Promise<Receita[]> => {
     return await fetch("http://localhost:3333/receitas")
         .then(result => result.json())
@@ -33,4 +41,10 @@ export const insertReceita = async (despesa: Despesa): Promise<Receita> => {
         body: JSON.stringify(despesa)
     }).then(result => result.json())
         .catch(error => console.log(error));
+}
+
+export const deleteReceita = async (id: number): Promise<void> => {
+    await fetch(`http://localhost:3333/receitas/${id}`, {
+        method: "DELETE",
+    }).then(_ => {})
 }

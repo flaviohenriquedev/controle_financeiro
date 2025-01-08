@@ -2,7 +2,7 @@
 
 import {createContext, ReactNode, useEffect, useState} from "react";
 import {Despesa} from "@/class/Despesa";
-import {fetchDespesas, insertDespesa} from "@/api/despesas";
+import {deleteDespesa, fetchDespesas, insertDespesa} from "@/api/despesas";
 
 type Props = {
     listaDespesas: Despesa[];
@@ -63,7 +63,7 @@ export function DespesasContextProvider({children}: { children: ReactNode }) {
     }
 
     function excluirDespesa(despesa: Despesa) {
-        setListaDespesas(prevState => prevState.filter(r => r.id !== despesa.id));
+        deleteDespesa(despesa.id).then(_ => handleFetchDespesas());
     }
 
     return (

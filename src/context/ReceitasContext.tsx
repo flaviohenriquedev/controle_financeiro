@@ -2,7 +2,7 @@
 
 import {createContext, ReactNode, useEffect, useState} from "react";
 import {Receita} from "@/class/Receita";
-import {fetchReceitas, insertReceita} from "@/api/despesas";
+import {deleteReceita, fetchReceitas, insertReceita} from "@/api/despesas";
 
 const apiReceitas: Receita[] = []
 
@@ -68,7 +68,7 @@ export function ReceitasContextProvider({children}: { children: ReactNode }) {
     }
 
     function excluirReceita(receita: Receita) {
-        setListaReceitas(prevState => prevState.filter(r => r.id !== receita.id));
+        deleteReceita(receita.id).then(_ => handleFetchReceitas());
     }
 
     return (
