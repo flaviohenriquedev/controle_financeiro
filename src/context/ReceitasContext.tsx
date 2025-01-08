@@ -48,7 +48,7 @@ export function ReceitasContextProvider({children}: { children: ReactNode }) {
     function somarValorTotalReceita(receitas: Receita[]): number {
         let total: number = 0;
 
-        receitas.map(receita => (
+        receitas && receitas.map(receita => (
             total += receita.valor
         ))
 

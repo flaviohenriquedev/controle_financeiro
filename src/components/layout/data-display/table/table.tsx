@@ -3,7 +3,7 @@ import {EntidadePadrao} from "@/class/EntidadePadrao";
 import {Input} from "@/components/layout/data-input/input/input";
 import {icones} from "@/components/layout/icones";
 import {TipoDados} from "@/enums";
-import {formatarMoedaBrasileira, getValorEmString} from "@/functions/utils";
+import {formatarMoedaBrasileira} from "@/functions/utils";
 import {get} from "lodash";
 import {useEffect} from "react";
 
@@ -11,6 +11,7 @@ interface Props<E extends EntidadePadrao> {
     lista: E[]
     fields: FieldTabela[]
     enumerar?: boolean
+    classTable?: string
     modeloTabela?: 1 | 2
     funcaoEditar?: (entidade: E) => void
     funcaoExcluir?: (entidade: E) => void
@@ -21,6 +22,7 @@ export function Table({
                           lista,
                           fields,
                           enumerar = false,
+                          classTable,
                           modeloTabela = 1,
                           funcaoEditar,
                           funcaoExcluir,
@@ -59,7 +61,7 @@ export function Table({
                             )
                             : <td key={field.field}>{
                                 field.tipoDados === TipoDados.MOEDA
-                                    ? formatarMoedaBrasileira(getValorEmString(get(item, field.field)))
+                                    ? formatarMoedaBrasileira(get(item, field.field))
                                     : get(item, field.field)
                             }</td>
                     ))}
@@ -75,8 +77,8 @@ export function Table({
     }
 
     return (
-        <div className="w-full overflow-x-auto">
-            <table className={`table ${modeloTabela === 2 && 'table-xs table-pin-rows table-pin-cols'}`}>
+        <div className="w-full overflow-x-auto mt-4">
+            <table className={`table ${classTable && classTable} ${modeloTabela === 2 && 'table-xs table-pin-rows table-pin-cols'}`}>
                 <thead>
                 <tr>
                     {enumerar && <th></th>}

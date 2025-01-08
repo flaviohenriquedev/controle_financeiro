@@ -45,10 +45,12 @@ export function Receitas({receitas, handleOpenModal}: Props) {
                 </div>
                 <hr/>
                 <div className={`flex justify-center p-1`}>
-                    <h2 className={`text-[14pt]`}>{formatarMoedaBrasileira(valorTotal.toString())}</h2>
+                    <h2 className={`text-[14pt]`}>{formatarMoedaBrasileira(valorTotal)}</h2>
                 </div>
             </div>
+
             <Table lista={receitas}
+                   classTable={`bg-primary/30`}
                    fields={fieldsReceitas}
                    funcaoExcluir={excluirReceita}
                    funcaoEditar={editar}

@@ -33,9 +33,8 @@ export function mascaraCNPJ(valor?: string): string {
     return ''
 }
 
-export function formatarMoedaBrasileira(valor: string): string {
-    const valorNumerico = parseFloat(extrairNumeros(valor));
-    return Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(valorNumerico);
+export function formatarMoedaBrasileira(valor: number): string {
+    return Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(valor);
 }
 
 export function extrairNumeros(str: string): string {
