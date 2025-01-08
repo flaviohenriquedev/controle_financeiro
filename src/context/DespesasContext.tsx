@@ -1,21 +1,18 @@
 'use client'
 
 import {createContext, ReactNode, useEffect, useState} from "react";
-import {generateRandomId} from "@/functions/utils";
 import {Despesa} from "@/class/Despesa";
-import {Receita} from "@/class/Receita";
-
-const apiDespesas: Despesa[] = []
+import {fetchDespesas, insertDespesa} from "@/api/despesas";
 
 type Props = {
-    listaDespesas: Despesa[]
-    setListaDespesas: (listaDespesas: Despesa[]) => void
-    despesa: Despesa
-    setDespesa: (Despesa: Despesa) => void
-    adicionarDespesa: () => void
-    excluirDespesa: (receita: Receita) => void
-    valorTotal: number
-}
+    listaDespesas: Despesa[];
+    setListaDespesas: (listaDespesas: Despesa[]) => void;
+    despesa: Despesa;
+    setDespesa: (despesa: Despesa) => void;
+    adicionarDespesa: () => void;
+    excluirDespesa: (despesa: Despesa) => void;
+    valorTotal: number;
+};
 
 export const DespesasContext = createContext<Props>({
     listaDespesas: [],
@@ -29,13 +26,16 @@ export const DespesasContext = createContext<Props>({
     excluirDespesa: () => {
     },
     valorTotal: 0,
-})
+});
 
 export function DespesasContextProvider({children}: { children: ReactNode }) {
-
-    const [listaDespesas, setListaDespesas] = useState<Despesa[]>(apiDespesas);
+    const [listaDespesas, setListaDespesas] = useState<Despesa[]>([]);
     const [despesa, setDespesa] = useState<Despesa>(new Despesa());
     const [valorTotal, setValorTotal] = useState<number>(0);
+
+    useEffect(() => {
+        handleFetchDespesas()
+    }, []);
 
     useEffect(() => {
         const valorTotal = somarValorTotalDespesa(listaDespesas);
@@ -44,17 +44,22 @@ export function DespesasContextProvider({children}: { children: ReactNode }) {
 
     function somarValorTotalDespesa(despesas: Despesa[]): number {
         let total: number = 0;
-
-        despesas.map(despesa => (
-            total += despesa.valor
-        ))
-
+        despesas && despesas.map(despesa => {
+            total += despesa.valor ?? 0;
+        })
         return total;
     }
 
+    function handleFetchDespesas() {
+        fetchDespesas().then(result => {
+            setListaDespesas(result);
+        });
+    }
+
     function adicionarDespesa() {
-        const novaDespesa = {...despesa, id: generateRandomId()};
-        setListaDespesas([...listaDespesas, novaDespesa]);
+        insertDespesa(despesa).then(_ => {
+            handleFetchDespesas();
+        })
     }
 
     function excluirDespesa(despesa: Despesa) {
@@ -63,7 +68,13 @@ export function DespesasContextProvider({children}: { children: ReactNode }) {
 
     return (
         <DespesasContext.Provider value={{
-            listaDespesas, setListaDespesas, despesa, setDespesa, adicionarDespesa, excluirDespesa, valorTotal
+            listaDespesas,
+            setListaDespesas,
+            despesa,
+            setDespesa,
+            adicionarDespesa,
+            excluirDespesa,
+            valorTotal
         }}>
             {children}
         </DespesasContext.Provider>

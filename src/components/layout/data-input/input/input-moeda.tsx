@@ -1,45 +1,56 @@
 'use client'
 
 import {InputHTMLAttributes, useEffect, useState} from "react";
-import {extrairNumeros, mascaraMoeda} from "@/functions/utils";
 import {EntidadePadrao} from "@/class/EntidadePadrao";
 import {get, set} from "lodash";
+import {NumericFormat} from "react-number-format";
 
 interface Props<E extends EntidadePadrao> extends InputHTMLAttributes<HTMLInputElement> {
     entidade: E;
     field: string;
 }
 
-
 export function InputMoeda({
-                               type = "text",
                                entidade,
                                field,
-                               placeholder,
-                               ...rest
+                               placeholder
                            }: Props<any>) {
 
-    const [valorInput, setValorInput] = useState<string>("");
+    const [value, setValue] = useState('')
 
     useEffect(() => {
-        const valorInicial = get(entidade, field, "");
-        setValorInput(mascaraMoeda(valorInicial));
+        const valorInicial = get(entidade, field, "") === 0
+            ? ""
+            : get(entidade, field, "")
+        setValue(valorInicial)
     }, [entidade, field]);
 
-    function onChangeValorInput(value: string) {
-        const valorNumerico: number = parseFloat(extrairNumeros(value));
-        setValorInput(mascaraMoeda(value));
-        set(entidade, field, valorNumerico);
+    function setValorEntidade(valor: string) {
+        const valorNumerico = parseFloat(valor);
+        set(entidade, field, valorNumerico)
     }
 
     return (
-        <input
-            type={type}
+        <NumericFormat
             placeholder={placeholder}
-            value={valorInput || ""}
-            onChange={(e) => onChangeValorInput(e.target.value)}
+            value={value}
+            onValueChange={(values) => {
+                setValue(values.value);
+                setValorEntidade(values.value)
+            }}
             className={`input input-bordered input-sm rounded-sm w-full`}
-            {...rest}
+            allowLeadingZeros={false}
+            allowNegative={false}
+            decimalScale={2}
+            fixedDecimalScale={true}
+            decimalSeparator=','
+            allowedDecimalSeparators={['.']}
+            prefix='R$ '
+            thousandSeparator='.'
+            isAllowed={(values) => {
+                if (values.value.length > 9) return false;
+                return true;
+            }}
         />
-    );
+    )
 }

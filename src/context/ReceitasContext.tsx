@@ -2,7 +2,7 @@
 
 import {createContext, ReactNode, useEffect, useState} from "react";
 import {Receita} from "@/class/Receita";
-import {generateRandomId} from "@/functions/utils";
+import {fetchReceitas, insertReceita} from "@/api/despesas";
 
 const apiReceitas: Receita[] = []
 
@@ -37,6 +37,10 @@ export function ReceitasContextProvider({children}: { children: ReactNode }) {
     const [valorTotal, setValorTotal] = useState(0);
 
     useEffect(() => {
+        handleFetchReceitas()
+    }, []);
+
+    useEffect(() => {
         const valorTotal = somarValorTotalReceita(listaReceitas);
         setValorTotal(valorTotal);
     }, [listaReceitas]);
@@ -51,9 +55,16 @@ export function ReceitasContextProvider({children}: { children: ReactNode }) {
         return total;
     }
 
+    function handleFetchReceitas() {
+        fetchReceitas().then(result => {
+            setListaReceitas(result);
+        });
+    }
+
     function adicionarReceita() {
-        const novaReceita = {...receita, id: generateRandomId()};
-        setListaReceitas([...listaReceitas, novaReceita]);
+        insertReceita(receita).then(_ => {
+            handleFetchReceitas();
+        })
     }
 
     function excluirReceita(receita: Receita) {

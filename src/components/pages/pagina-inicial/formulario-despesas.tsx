@@ -19,7 +19,8 @@ export function FormularioDespesas({despesa, funcaoAdicionar}: Props) {
     }
 
     return (
-        <form className={`flex flex-col`} onSubmit={(e) => onSubmitForm(e)}>
+        <form className={`flex flex-col`}
+              onSubmit={(e) => onSubmitForm(e)}>
             <LineContent>
 
                 <Label descricao={`Descrição`}>

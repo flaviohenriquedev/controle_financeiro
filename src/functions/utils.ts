@@ -33,26 +33,13 @@ export function mascaraCNPJ(valor?: string): string {
     return ''
 }
 
-export function mascaraMoeda(valor?: string): string {
-    if (valor) {
-        const isNegative = valor.startsWith('-');
-        valor = valor.replace(/\D/g, '');
-        if (isNegative) {
-            valor = '-' + valor;
-        }
-        valor = (parseInt(valor) / 100).toFixed(2);
-        valor = valor.replace('.', ',');
-        valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
-        return `R$ ${valor}`;
-    }
-
-    return '';
+export function formatarMoedaBrasileira(valor: string): string {
+    const valorNumerico = parseFloat(extrairNumeros(valor));
+    return Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(valorNumerico);
 }
 
-
 export function extrairNumeros(str: string): string {
-    if (str) {
+    if (str && str.length > 0) {
         const numeros = str.match(/\d+/g);
         return numeros ? numeros.join('') : '';
     }

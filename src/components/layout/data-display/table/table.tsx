@@ -3,8 +3,9 @@ import {EntidadePadrao} from "@/class/EntidadePadrao";
 import {Input} from "@/components/layout/data-input/input/input";
 import {icones} from "@/components/layout/icones";
 import {TipoDados} from "@/enums";
-import {getValorEmString, mascaraMoeda} from "@/functions/utils";
+import {formatarMoedaBrasileira, getValorEmString} from "@/functions/utils";
 import {get} from "lodash";
+import {useEffect} from "react";
 
 interface Props<E extends EntidadePadrao> {
     lista: E[]
@@ -25,6 +26,10 @@ export function Table({
                           funcaoExcluir,
                           selecionarComDuploClique
                       }: Props<any>) {
+
+    useEffect(() => {
+        renderLinhas()
+    }, [lista]);
 
     function renderHead() {
         return fields.map((field) => (
@@ -54,7 +59,7 @@ export function Table({
                             )
                             : <td key={field.field}>{
                                 field.tipoDados === TipoDados.MOEDA
-                                    ? mascaraMoeda(getValorEmString(get(item, field.field)))
+                                    ? formatarMoedaBrasileira(getValorEmString(get(item, field.field)))
                                     : get(item, field.field)
                             }</td>
                     ))}

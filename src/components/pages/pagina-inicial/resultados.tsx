@@ -1,4 +1,4 @@
-import {mascaraMoeda} from "@/functions/utils";
+import {formatarMoedaBrasileira} from "@/functions/utils";
 import {useContext} from "react";
 import {ValoresContext} from "@/context/ValoresContext";
 import {Poupanca} from "@/components/pages/pagina-inicial/poupanca";
@@ -15,7 +15,7 @@ export function Resultados() {
                     <h1 className={`text-[20pt]`}>Saldo</h1>
                 </div>
                 <div className={`flex p-1`}>
-                    <h2 className={`text-[20pt]`}>{mascaraMoeda(valorSaldo.toString())}</h2>
+                    <h2 className={`text-[20pt]`}>{formatarMoedaBrasileira(valorSaldo.toString())}</h2>
                 </div>
             </div>
 
@@ -24,7 +24,7 @@ export function Resultados() {
                     <h1 className={`text-[18pt]`}>Saldo + Poupança</h1>
                 </div>
                 <div className={`flex justify-center p-1`}>
-                    <h2 className={`text-[18pt]`}>{mascaraMoeda(valorSaldoPoupanca.toString())}</h2>
+                    <h2 className={`text-[18pt]`}>{formatarMoedaBrasileira(valorSaldoPoupanca.toString())}</h2>
                 </div>
             </div>
         </div>

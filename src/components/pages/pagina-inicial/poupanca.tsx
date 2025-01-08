@@ -2,7 +2,7 @@
 
 import {useContext} from "react";
 import {ValoresContext} from "@/context/ValoresContext";
-import {extrairNumeros, mascaraMoeda} from "@/functions/utils";
+import {extrairNumeros, formatarMoedaBrasileira} from "@/functions/utils";
 
 export function Poupanca() {
 
@@ -23,7 +23,7 @@ export function Poupanca() {
                 <input type={`text`}
                        placeholder={`R$ 0,00`}
                        className={`text-center w-full bg-base-300 outline-none`}
-                       value={mascaraMoeda(valorPoupanca.toString())}
+                       value={formatarMoedaBrasileira(valorPoupanca.toString())}
                        onChange={(e) => handleChangeValue(e.target.value)}/>
             </div>
         </div>

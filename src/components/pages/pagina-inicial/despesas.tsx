@@ -1,4 +1,4 @@
-import {mascaraMoeda} from "@/functions/utils";
+import {formatarMoedaBrasileira} from "@/functions/utils";
 import {Despesa} from "@/class/Despesa";
 import {useContext} from "react";
 import {icones} from "@/components/layout/icones";
@@ -41,7 +41,7 @@ export function Despesas({despesas, handleOpenModal}: Props) {
                 </div>
                 <hr/>
                 <div className={`flex justify-center p-1`}>
-                    <h2 className={`text-[14pt]`}>{mascaraMoeda(valorTotal.toString())}</h2>
+                    <h2 className={`text-[14pt]`}>{formatarMoedaBrasileira(valorTotal.toString())}</h2>
                 </div>
             </div>
 
