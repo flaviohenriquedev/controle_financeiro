@@ -1,5 +1,4 @@
 import {Despesa} from "@/class/Despesa";
-import {Receita} from "@/class/Receita";
 
 export const fetchDespesas = async (): Promise<Despesa[]> => {
     return await fetch("http://localhost:3333/despesas")
@@ -18,23 +17,9 @@ export const insertDespesa = async (despesa: Despesa): Promise<Despesa> => {
         .catch(error => console.log(error));
 }
 
-export const deleteDespesa = async (id: number): Promise<void> => {
-    await fetch(`http://localhost:3333/despesas/${id}`, {
-        method: "DELETE",
-    }).then(_ => {})
-}
-
-//-------------------
-
-export const fetchReceitas = async (): Promise<Receita[]> => {
-    return await fetch("http://localhost:3333/receitas")
-        .then(result => result.json())
-        .catch(error => console.log(error));
-};
-
-export const insertReceita = async (despesa: Despesa): Promise<Receita> => {
-    return await fetch("http://localhost:3333/receitas", {
-        method: "POST",
+export const updateDespesa = async (despesa: Despesa): Promise<Despesa> => {
+    return await fetch(`http://localhost:3333/despesas/${despesa.id}`, {
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
@@ -43,8 +28,8 @@ export const insertReceita = async (despesa: Despesa): Promise<Receita> => {
         .catch(error => console.log(error));
 }
 
-export const deleteReceita = async (id: number): Promise<void> => {
-    await fetch(`http://localhost:3333/receitas/${id}`, {
+export const deleteDespesa = async (id: number): Promise<void> => {
+    await fetch(`http://localhost:3333/despesas/${id}`, {
         method: "DELETE",
     }).then(_ => {})
 }

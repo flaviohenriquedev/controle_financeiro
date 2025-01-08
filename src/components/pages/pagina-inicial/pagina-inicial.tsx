@@ -38,9 +38,9 @@ export function PaginaInicial() {
         <>
             <div className={`flex gap-2`}>
                 <Receitas receitas={listaReceitas}
-                          handleOpenModal={() => handleOpenModal(`my_modal_3`, () => setReceita(new Receita()))}/>
+                          handleOpenModal={handleOpenModal}/>
                 <Despesas despesas={listaDespesas}
-                          handleOpenModal={() => handleOpenModal(`my_modal_4`, () => setDespesa(new Despesa()))}/>
+                          handleOpenModal={handleOpenModal}/>
                 <Resultados />
             </div>
 

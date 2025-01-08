@@ -9,7 +9,7 @@ import {TipoDados} from "@/enums";
 
 type Props = {
     receitas: Receita[];
-    handleOpenModal: () => void;
+    handleOpenModal: (idModal: string, callBack?: () => void) => void;
 }
 
 const fieldsReceitas: FieldTabela[] = [
@@ -26,7 +26,11 @@ const fieldsReceitas: FieldTabela[] = [
 
 export function Receitas({receitas, handleOpenModal}: Props) {
 
-    const {valorTotal, excluirReceita} = useContext(ReceitasContext)
+    const {valorTotal, excluirReceita, setReceita} = useContext(ReceitasContext)
+
+    function editar(receita: Receita) {
+        handleOpenModal(`my_modal_3`, () => setReceita(receita));
+    }
 
     return (
         <div className={`flex flex-col w-full`}>
@@ -35,7 +39,7 @@ export function Receitas({receitas, handleOpenModal}: Props) {
                     <h1 className={`px-4 text-[25pt]`}>Receitas</h1>
                     <div
                         className={`flex items-center justify-center h-full aspect-square border-l hover:cursor-pointer`}
-                        onClick={handleOpenModal}>
+                        onClick={() => handleOpenModal(`my_modal_3`, () => setReceita(new Receita()))}>
                         {icones.adicionar({size: 40})}
                     </div>
                 </div>
@@ -47,6 +51,7 @@ export function Receitas({receitas, handleOpenModal}: Props) {
             <Table lista={receitas}
                    fields={fieldsReceitas}
                    funcaoExcluir={excluirReceita}
+                   funcaoEditar={editar}
             />
         </div>
     );

@@ -9,7 +9,7 @@ import {Table} from "@/components/layout/data-display/table/table";
 
 type Props = {
     despesas: Despesa[];
-    handleOpenModal: () => void;
+    handleOpenModal: (idModal: string, callBack?: () => void) => void;
 }
 
 const fieldsDespesas: FieldTabela[] = [
@@ -26,7 +26,11 @@ const fieldsDespesas: FieldTabela[] = [
 
 export function Despesas({despesas, handleOpenModal}: Props) {
 
-    const {valorTotal, excluirDespesa} = useContext(DespesasContext);
+    const {valorTotal, excluirDespesa, setDespesa} = useContext(DespesasContext);
+
+    function editar(despesa: Despesa) {
+        handleOpenModal(`my_modal_4`, () => setDespesa(despesa));
+    }
 
     return (
         <div className={`flex flex-col w-full`}>
@@ -35,7 +39,7 @@ export function Despesas({despesas, handleOpenModal}: Props) {
                     <h1 className={`px-4 text-[25pt]`}>Despesas</h1>
                     <div
                         className={`flex items-center justify-center h-full aspect-square border-l hover:cursor-pointer`}
-                        onClick={handleOpenModal}>
+                        onClick={() => handleOpenModal(`my_modal_4`, () => setDespesa(new Despesa()))}>
                         {icones.adicionar({size: 40})}
                     </div>
                 </div>
@@ -47,7 +51,8 @@ export function Despesas({despesas, handleOpenModal}: Props) {
 
             <Table lista={despesas}
                    fields={fieldsDespesas}
-                   funcaoExcluir={excluirDespesa}/>
+                   funcaoExcluir={excluirDespesa}
+                   funcaoEditar={editar}/>
         </div>
     )
 }

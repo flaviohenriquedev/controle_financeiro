@@ -2,6 +2,8 @@ import type {Metadata} from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import {Providers} from "@/providers";
+import {Toaster} from "react-hot-toast";
+import {ReactNode} from "react";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
                                        children,
                                    }: Readonly<{
-    children: React.ReactNode;
+    children: ReactNode;
 }>) {
     return (
         <html lang="pt-BR">
@@ -30,6 +32,7 @@ export default function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable} antialiased w-screen h-screen`}
         >
         <Providers>
+            <Toaster position="top-right" />
             {children}
         </Providers>
         </body>

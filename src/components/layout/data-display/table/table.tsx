@@ -64,10 +64,10 @@ export function Table({
                             }</td>
                     ))}
 
-                    {funcaoEditar && <td className={`hover:cursor-pointer`}
+                    {funcaoEditar && <td className={`w-11 hover:cursor-pointer`}
                                          onClick={() => funcaoEditar ? funcaoEditar(item) : null}>{icones.editar({})}</td>}
 
-                    {funcaoExcluir && <td className={`hover:cursor-pointer`}
+                    {funcaoExcluir && <td className={`w-11 hover:cursor-pointer`}
                                           onClick={() => funcaoExcluir ? funcaoExcluir(item) : null}>{icones.excluir({})}</td>}
                 </tr>
             ))

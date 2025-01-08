@@ -2,7 +2,7 @@
 
 import {createContext, ReactNode, useEffect, useState} from "react";
 import {Receita} from "@/class/Receita";
-import {deleteReceita, fetchReceitas, insertReceita} from "@/api/despesas";
+import {deleteReceita, fetchReceitas, insertReceita, updateReceita} from "@/api/receitas";
 
 const apiReceitas: Receita[] = []
 
@@ -62,9 +62,15 @@ export function ReceitasContextProvider({children}: { children: ReactNode }) {
     }
 
     function adicionarReceita() {
-        insertReceita(receita).then(_ => {
-            handleFetchReceitas();
-        })
+        if (receita.id === 0) {
+            insertReceita(receita).then(_ => {
+                handleFetchReceitas();
+            })
+        } else (
+            updateReceita(receita).then(_ => {
+                handleFetchReceitas();
+            })
+        )
     }
 
     function excluirReceita(receita: Receita) {
