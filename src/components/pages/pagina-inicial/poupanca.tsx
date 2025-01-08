@@ -1,17 +1,13 @@
 'use client'
 
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {ValoresContext} from "@/context/ValoresContext";
-import {extrairNumeros, formatarMoedaBrasileira} from "@/functions/utils";
+import {NumericFormat} from "react-number-format";
 
 export function Poupanca() {
 
-    const {valorPoupanca, setValorPoupanca} = useContext(ValoresContext);
-
-    function handleChangeValue(e: string) {
-        const valorFormatado = e && e.length > 0 ? extrairNumeros(e) : '0'
-        setValorPoupanca(parseFloat(valorFormatado))
-    }
+    const [value, setValue] = useState('')
+    const {setValorPoupanca} = useContext(ValoresContext);
 
     return (
         <div className={`flex flex-col bg-base-300 text-base-content`}>
@@ -20,11 +16,26 @@ export function Poupanca() {
             </div>
             <hr/>
             <div className={`flex justify-center text-[14pt] p-1`}>
-                <input type={`text`}
-                       placeholder={`R$ 0,00`}
-                       className={`text-center w-full bg-base-300 outline-none`}
-                       value={formatarMoedaBrasileira(valorPoupanca.toString())}
-                       onChange={(e) => handleChangeValue(e.target.value)}/>
+                <NumericFormat
+                    value={value}
+                    onValueChange={(values) => {
+                        setValue(values.value);
+                        setValorPoupanca(parseFloat(values.value))
+                    }}
+                    className={`text-center w-full bg-base-300 outline-none`}
+                    allowLeadingZeros={false}
+                    allowNegative={false}
+                    decimalScale={2}
+                    fixedDecimalScale={true}
+                    decimalSeparator=','
+                    allowedDecimalSeparators={['.']}
+                    prefix='R$ '
+                    thousandSeparator='.'
+                    isAllowed={(values) => {
+                        if (values.value.length > 9) return false;
+                        return true;
+                    }}
+                />
             </div>
         </div>
     )

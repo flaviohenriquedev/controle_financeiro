@@ -13,7 +13,8 @@ type Props = {
 
 export const ValoresContext = createContext<Props>({
     valorPoupanca: 0,
-    setValorPoupanca: () => {},
+    setValorPoupanca: () => {
+    },
     valorSaldo: 0,
     valorSaldoPoupanca: 0
 });
@@ -33,11 +34,11 @@ export const ValoresContextProvider = ({
 
     useEffect(() => {
         setValorSaldo(valorTotalReceitas - valorTotalDespesas);
-        setValorSaldoPoupanca(valorPoupanca + valorSaldo);
+        setValorSaldoPoupanca(!isNaN(valorPoupanca) ? valorPoupanca + valorSaldo : valorSaldo);
     }, [valorTotalReceitas, valorTotalDespesas]);
 
     useEffect(() => {
-        setValorSaldoPoupanca(valorPoupanca + valorSaldo);
+        setValorSaldoPoupanca(!isNaN(valorPoupanca) ? valorPoupanca + valorSaldo : valorSaldo);
     }, [valorPoupanca, valorSaldo]);
 
     return (
